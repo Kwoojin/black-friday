@@ -1,0 +1,3 @@
+rootProject.name = 'black-friday'
+include 'MemberService'
+
