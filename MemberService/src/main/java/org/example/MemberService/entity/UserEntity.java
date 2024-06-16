@@ -1,9 +1,7 @@
 package org.example.MemberService.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
@@ -16,13 +14,13 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    public Long userId;
+    private Long userId;
 
     @Column(name = "login_id", unique = true)
-    public String loginId;
+    private String loginId;
 
     @Column(name = "user_name")
-    public String userName;
+    private String userName;
 
     protected UserEntity() {}
 

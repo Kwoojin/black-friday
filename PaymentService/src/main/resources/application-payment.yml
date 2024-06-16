@@ -1,0 +1,41 @@
+debug: false
+
+logging:
+  level:
+    com.example.MemberService: debug
+    org.springframework.web.servlet: debug
+    org.springframework.security: debug
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_db?useSSL=false&allowPublicKeyRetrieval=true
+#    url: "jdbc:mysql://mysql-server:3306/my_db?useSSL=false&allowPublicKeyRetrieval=true"
+    username: root
+    password: 1234
+
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        #jpa batch query 사이즈
+        default_batch_fetch_size: 100
+        use_sql_comments: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
