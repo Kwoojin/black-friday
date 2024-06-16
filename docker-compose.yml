@@ -74,9 +74,44 @@ services:
       timeout: 10s
       retries: 50
 
-#  member-service:
-#    image: member-service
-#    ports:
-#      - "8081:8080"
-#    depends_on:
-#      - mysql-server
+  member-service:
+    image: member-service
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql-server
+
+  payment-service:
+    image: payment-service
+    ports:
+      - "8082:8080"
+    depends_on:
+      - mysql-server
+
+  delivery-service:
+    image: delivery-service
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mysql-server
+
+  search-service:
+    image: search-service
+    ports:
+      - "8084:8080"
+    depends_on:
+      - mysql-server
+
+  catalog-service:
+    image: catalog-service
+    ports:
+      - "8085:8080"
+    depends_on:
+      - mysql-server
+
+  order-service:
+    image: order-service
+    ports:
+      - "8086:8080"
+    depends_on:
+      - mysql-server

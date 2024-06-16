@@ -6,8 +6,13 @@ logging:
     org.springframework.web.servlet: debug
     org.springframework.security: debug
 
-server:
-  port: 8084
+spring:
+  data:
+    redis:
+      host: redis-server
+      port: 6379
+#server:
+#  port: 8084
 ---
 
 spring:

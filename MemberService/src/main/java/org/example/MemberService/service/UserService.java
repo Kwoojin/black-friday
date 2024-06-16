@@ -14,6 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public UserDto registerUser(String loginId, String userName) {
         UserEntity user = new UserEntity(loginId, userName);
         return UserDto.from(userRepository.save(user));

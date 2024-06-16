@@ -16,7 +16,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public UserDto registerUser(@RequestBody RegisterUserDto dto) {
-        return userService.registerUser(dto.loginId, dto.userName);
+        return userService.registerUser(dto.getLoginId(), dto.getUserName());
     }
 
     @PutMapping("/{userId}/modify")
