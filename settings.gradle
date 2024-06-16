@@ -4,4 +4,5 @@ include 'PaymentService'
 include 'DeliveryService'
 include 'SearchService'
 include 'CatalogService'
+include 'OrderService'
 
