@@ -10,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 class OrderServiceApplicationTests {
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 

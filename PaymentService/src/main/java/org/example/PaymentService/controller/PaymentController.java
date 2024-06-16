@@ -30,15 +30,15 @@ public class PaymentController {
     /**
      * 결제 진행
      */
-    @PostMapping("/process-payment")
-    public PaymentAndMethodDto processPayment(@RequestBody ProcessPaymentReq req) {
-        return paymentService.processPayment(
-            req.getUserId(),
-            req.getOrderId(),
-            req.getAmountKRW(),
-            req.getPaymentMethodId()
-        );
-    }
+//    @PostMapping("/process-payment")
+//    public PaymentAndMethodDto processPayment(@RequestBody ProcessPaymentReq req) {
+//        return paymentService.processPayment(
+//            req.getUserId(),
+//            req.getOrderId(),
+//            req.getAmountKRW(),
+//            req.getPaymentMethodId()
+//        );
+//    }
 
     /**
      * 결제 수단 중 우선 순위 있는 것 

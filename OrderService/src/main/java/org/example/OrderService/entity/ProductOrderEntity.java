@@ -36,24 +36,34 @@ public class ProductOrderEntity {
     @Column(name = "delivery_id")
     private Long deliveryId;
 
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
     protected ProductOrderEntity() {}
 
     @Builder
-    public ProductOrderEntity(Long userId, Long productId, Long count, OrderStatus orderStatus, Long paymentId, Long deliveryId) {
+    public ProductOrderEntity(Long userId, Long productId, Long count, OrderStatus orderStatus, Long paymentId, Long deliveryId, String deliveryAddress) {
         this.userId = userId;
         this.productId = productId;
         this.count = count;
         this.orderStatus = orderStatus;
         this.paymentId = paymentId;
         this.deliveryId = deliveryId;
+        this.deliveryAddress = deliveryAddress;
     }
 
-    public void update(OrderStatus orderStatus, Long paymentId, Long deliveryId) {
-        this.orderStatus = orderStatus;
-        this.paymentId = paymentId;
+    public void deliveryStatusUpdate(Long deliveryId) {
         this.deliveryId = deliveryId;
     }
 
+    public void paymentRequested(OrderStatus orderStatus, String deliveryAddress) {
+        this.orderStatus = orderStatus;
+        this.deliveryAddress = deliveryAddress;
+    }
+    public void paymentResult(OrderStatus orderStatus, Long paymentId) {
+        this.orderStatus = orderStatus;
+        this.paymentId = paymentId;
+    }
 
     @Override
     public boolean equals(Object o) {

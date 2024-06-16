@@ -1,7 +1,6 @@
 package org.example.DeliveryService.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.DeliveryService.controller.dto.ProcessDeliveryReq;
 import org.example.DeliveryService.controller.dto.RegisterAddressReq;
 import org.example.DeliveryService.dto.DeliveryDto;
 import org.example.DeliveryService.dto.UserAddressDto;
@@ -23,15 +22,15 @@ public class DeliveryController {
         );
     }
 
-    @PostMapping("/delivery/process-delivery")
-    public DeliveryDto processDelivery(@RequestBody ProcessDeliveryReq dto) {
-        return deliveryService.processDelivery(
-            dto.getOrderId(),
-            dto.getProductName(),
-            dto.getProductCount(),
-            dto.getAddress()
-        );
-    }
+//    @PostMapping("/delivery/process-delivery")
+//    public DeliveryDto processDelivery(@RequestBody ProcessDeliveryReq dto) {
+//        return deliveryService.processDelivery(
+//            dto.getOrderId(),
+//            dto.getProductName(),
+//            dto.getProductCount(),
+//            dto.getAddress()
+//        );
+//    }
 
     @GetMapping("/delivery/deliveries/{deliveryId}")
     public DeliveryDto getDelivery(@PathVariable Long deliveryId) {
