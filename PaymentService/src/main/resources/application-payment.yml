@@ -2,7 +2,7 @@ debug: false
 
 logging:
   level:
-    com.example.MemberService: debug
+    com.example.PaymentService: debug
     org.springframework.web.servlet: debug
     org.springframework.security: debug
 

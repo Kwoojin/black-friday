@@ -12,6 +12,11 @@ services:
     ports:
       - "3306:3306"
 
+  redis-server:
+    image: redis
+    ports:
+      - "6379:6379"
+
   member-service:
     image: member-service
     ports:

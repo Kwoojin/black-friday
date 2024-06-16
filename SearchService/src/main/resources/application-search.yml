@@ -1,0 +1,14 @@
+debug: false
+
+logging:
+  level:
+    com.example.SearchService: debug
+    org.springframework.web.servlet: debug
+    org.springframework.security: debug
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
