@@ -43,7 +43,7 @@ public class PaymentEntity {
     @Column(name = "reference_code", unique = true)
     private Long referenceCode;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_method_id")
     private PaymentMethodEntity paymentMethod;
 

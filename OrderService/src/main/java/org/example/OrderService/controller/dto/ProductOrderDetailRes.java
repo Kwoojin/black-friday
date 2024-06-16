@@ -4,6 +4,9 @@ import lombok.Builder;
 import org.example.OrderService.dto.ProductOrderAndDeliveryAndPaymentDto;
 import org.example.OrderService.enums.OrderStatus;
 
+import java.util.Map;
+
+@SuppressWarnings("unchecked")
 @Builder
 public record ProductOrderDetailRes(
     Long id,
@@ -23,7 +26,7 @@ public record ProductOrderDetailRes(
             .paymentId(dto.productOrder().paymentId())
             .deliveryId(dto.productOrder().deliveryId())
             .orderStatus(dto.productOrder().orderStatus())
-            .paymentStatus(dto.payment().get("paymentStatus").toString())
+            .paymentStatus(((Map<String, Object>) dto.payment().get("payment")).get("paymentStatus").toString())
             .deliveryStatus(dto.delivery().get("status").toString())
             .build();
     }

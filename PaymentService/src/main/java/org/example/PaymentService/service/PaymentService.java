@@ -1,6 +1,7 @@
 package org.example.PaymentService.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.PaymentService.dto.PaymentAndMethodDto;
 import org.example.PaymentService.dto.PaymentDto;
 import org.example.PaymentService.dto.PaymentMethodDto;
@@ -14,6 +15,7 @@ import org.example.PaymentService.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -56,6 +58,7 @@ public class PaymentService {
 
         final Long refCode = creditCardPaymentAdapter.processCreditCardPayment(amountKRW, paymentMethod.getCreditCardNumber());
 
+        log.info("userId : {}, orderId: {}, amountKRW: {}, paymentMethodId: {}. refCode: {}", userId, orderId, amountKRW, paymentMethodId, refCode);
         PaymentEntity payment = PaymentEntity.builder()
             .userId(userId)
             .orderId(orderId)
@@ -64,6 +67,7 @@ public class PaymentService {
             .referenceCode(refCode)
             .paymentMethod(paymentMethod)
             .build();
+        log.info("PaymentEntity : {}", payment);
         PaymentEntity savedPayment = paymentRepository.save(payment);
 
         return PaymentAndMethodDto.from(savedPayment);

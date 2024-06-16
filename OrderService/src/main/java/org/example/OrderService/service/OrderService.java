@@ -2,6 +2,7 @@ package org.example.OrderService.service;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.OrderService.dto.ProductOrderAndDeliveryAndPaymentDto;
 import org.example.OrderService.dto.ProductOrderAndDeliveryAndPaymentMethodDto;
 import org.example.OrderService.dto.ProductOrderDto;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -62,12 +64,14 @@ public class OrderService {
             .build();
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional
     public ProductOrderDto finishOrder(Long orderId, Long paymentMethodId, Long addressId) {
         ProductOrderEntity order = orderRepository.findById(orderId).orElseThrow();
 
         // 1. 상품 정보 조회
         Map<String, Object> product = catalogClient.getProduct(order.getProductId());
+        log.info("product : {}", product);
 
         // 2. 결제
         ProcessPaymentDto processPaymentDto = ProcessPaymentDto.builder()
@@ -76,6 +80,7 @@ public class OrderService {
                 .amountKRW(Long.parseLong(product.get("price").toString()) * order.getCount())
                 .paymentMethodId(paymentMethodId)
                 .build();
+        log.info("processPayment : {}", processPaymentDto);
         Map<String, Object> payment = paymentClient.processPayment(processPaymentDto);
 
         // 3. 배송 요청
@@ -93,12 +98,12 @@ public class OrderService {
         DecreaseStockCountDto decreaseStockCountDto = new DecreaseStockCountDto(order.getCount());
 
         catalogClient.decreaseStockCount(order.getProductId(), decreaseStockCountDto);
-
+//        paymentId
         // 5. 주문 정보 업데이트
         order.update(
             OrderStatus.DELIVERY_REQUESTED,
-            Long.parseLong(payment.get("id").toString()),
-            Long.parseLong(delivery.get("id").toString())
+            Long.parseLong(((Map<String, Object>) payment.get("payment")).get("paymentId").toString()),
+            Long.parseLong(delivery.get("deliveryId").toString())
         );
 
         return ProductOrderDto.from(orderRepository.save(order));
