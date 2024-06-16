@@ -10,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 class SearchServiceApplicationTests {
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 

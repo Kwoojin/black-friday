@@ -1,13 +1,13 @@
 package org.example.CatalogService.service;
 
+import blackfriday.protobuf.EdaMessage;
 import lombok.RequiredArgsConstructor;
 import org.example.CatalogService.cassandra.entity.ProductEntity;
 import org.example.CatalogService.cassandra.repository.ProductRepository;
 import org.example.CatalogService.dto.ProductDto;
-import org.example.CatalogService.feign.SearchClient;
-import org.example.CatalogService.feign.dto.ProductTagsDto;
 import org.example.CatalogService.mysql.entity.SellerProductEntity;
 import org.example.CatalogService.mysql.repository.SellerProductRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,9 @@ public class CatalogService {
 
     private final ProductRepository productRepository;
 
-    private final SearchClient searchClient;
+//    private final SearchClient searchClient;
+
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
     @Transactional
     public ProductDto registerProduct(
@@ -48,11 +50,17 @@ public class CatalogService {
             .tags(tags)
             .build();
 
-        ProductTagsDto addProductTags = ProductTagsDto.builder()
-            .tags(tags)
-            .productId(product.getProductId())
+//        ProductTagsDto addProductTags = ProductTagsDto.builder()
+//            .tags(tags)
+//            .productId(product.getProductId())
+//            .build();
+//        searchClient.addTagCache(addProductTags);
+
+        EdaMessage.ProductTags message = EdaMessage.ProductTags.newBuilder()
+            .setProductId(product.getProductId())
+            .addAllTags(tags)
             .build();
-        searchClient.addTagCache(addProductTags);
+        kafkaTemplate.send("product_tags_added", message.toByteArray());
 
         ProductEntity savedProduct = productRepository.save(product);
         return ProductDto.from(savedProduct);
@@ -64,12 +72,19 @@ public class CatalogService {
 
         if(optionalProduct.isPresent()) {
             ProductEntity product = optionalProduct.get();
-            ProductTagsDto removeProductTags = ProductTagsDto.builder()
-                .tags(product.getTags())
-                .productId(product.getProductId())
-                .build();
+//            ProductTagsDto removeProductTags = ProductTagsDto.builder()
+//                .tags(product.getTags())
+//                .productId(product.getProductId())
+//                .build();
+//
+//            searchClient.removeTagCache(removeProductTags);
 
-            searchClient.removeTagCache(removeProductTags);
+            EdaMessage.ProductTags message = EdaMessage.ProductTags.newBuilder()
+                    .setProductId(product.getProductId())
+                    .addAllTags(product.getTags())
+                    .build();
+            kafkaTemplate.send("product_tags_removed", message.toByteArray());
+
         }
 
         productRepository.deleteById(productId);
